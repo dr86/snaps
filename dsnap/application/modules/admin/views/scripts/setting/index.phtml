@@ -1,0 +1,65 @@
+<?php 
+$this->jQuery()->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.animate_from_to-1.0.js')
+			   ->addJavascriptFile( $this->baseUrl() . '/js/admin/option.js' ); 
+?>
+
+<header>
+	<h2>Settings</h2>
+</header>
+
+<section>
+
+<?php 
+// messages
+echo $this->flashMessenger('success'); 
+echo $this->flashMessenger('error'); 
+?>
+
+<div class="sidetabs">
+	
+	<!-- navigation option -->
+	<nav class="sidetab-switch">
+		<ul>
+			<li>
+				<a class="default-sidetab" href="#sidetab-option-general">General</a>
+			</li>
+			<li>
+				<a href="#sidetab-option-contact">Contact</a>
+			</li>
+			<li>
+				<a href="#sidetab-option-social">Social</a>
+			</li>
+			<li>
+				<a href="#sidetab-option-profile">Profile</a>
+			</li>
+		</ul>
+	</nav>
+	
+		
+	<!-- sidetab option general -->
+	<div class="sidetab default-sidetab" id="sidetab-option-general">
+		<?php echo $this->formGeneral; ?>
+	</div>
+	
+	<!-- sidetab option social -->
+	<div class="sidetab" id="sidetab-option-social">
+		<?php echo $this->formSocial; ?>
+	</div>
+	
+	<!-- sidetab option profile -->
+	<div class="sidetab" id="sidetab-option-profile">
+		<?php echo $this->formProfile; ?>
+	</div>
+	
+	<!-- sidetab option contact -->
+	<div class="sidetab" id="sidetab-option-contact">
+		<?php echo $this->formContact; ?>
+	</div>
+
+</div>
+	
+	<div id="ajax-loader">
+		<div class="ajax-loading">Please wait...</div>
+	</div>
+
+</section>

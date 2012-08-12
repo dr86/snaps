@@ -1,0 +1,70 @@
+<?php 
+// widget id : preffix.id-pos
+// example : widget_1-1	
+$widget_id = sprintf('widget_%d-%d', $this->widget['id'], $this->widget_position);
+// widget value = widget data index position
+$widget_value = $this->widget['data'][$this->widget_position]; 
+?>
+<div id="<?php echo $widget_id; ?>" class="portlet">
+	<div class="portlet-header">
+		<h4><?php echo $this->widget['title']; ?>
+			<span class="widget-name"><?php if($widget_value['title']) echo ':'.$widget_value['title']; ?></span>
+		</h4>
+	</div>
+	<div class="portlet-inside">
+		<div class="portlet-form">
+			<form action="#">
+				<ul>
+					<li>
+						<label for="<?php echo $this->widget['name']; ?>">Title : </label>
+						<input type="text" name="title" value="<?php echo $widget_value['title']; ?>" />
+					</li>
+					<!-- jika widget count aktif -->
+					<?php if( $this->widget['use_count'] ) : ?>
+					<li>
+						<label for="count_<?php echo $this->widget['name']; ?>" class="smalllabel">Number of <?php echo $this->widget['title']; ?> to show : </label>
+						<input class="count" type="text" name="title" value="<?php echo $widget_value['count']; ?>" />
+					</li>
+					<?php endif; ?>
+					<!-- /count -->
+					<!-- jika widget page aktif -->
+					<?php if( $this->widget['use_page'] && $this->pages ) : ?>
+					<li>
+						<label for="count_<?php echo $widget['name']; ?>">Page :</label>
+						<select name="page">
+						<?php foreach( $this->pages as $page ) : ?>
+							<option value="<?php echo $page->getId() ?>"><?php echo $page->content_name ?></option>
+						<?php endforeach; ?>
+						</select>
+					</li>
+					<?php endif; ?>
+					<!-- /page -->
+					<!-- jika widget menu aktif -->
+					<?php if( $this->widget['use_menu'] && $this->menus ) : ?>
+					<li>
+						<label for="menu_<?php echo $widget['name']; ?>">Menu :</label>
+						<select name="menu">
+						<?php foreach( $this->menus as $key => $menu ) : ?>
+							<?php $menu_selected = ( $widget_value['menu'] == 'menu_'.$menu['name'] ) ? 'selected' : '' ; ?>
+							<option value="<?php echo $key ?>" <?php echo $menu_selected; ?>><?php echo $menu['name'] ?></option>
+						<?php endforeach; ?>
+						</select>
+					</li>
+					<?php endif; ?>
+					<!-- /menu -->
+					<li id="widget-control">
+						<div class="alignleft">
+							<a class="widget-control-remove" href="#remove">Delete</a>|
+							<a class="widget-control-close" href="#close">Close</a>
+						</div>
+						<div class="alignright">
+							<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+							<input type="submit" class="widget-control-save ui-button ui-widget ui-state-default ui-corner-all" value="Save" />
+						</div>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

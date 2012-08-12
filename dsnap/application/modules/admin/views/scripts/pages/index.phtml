@@ -1,0 +1,57 @@
+<header>
+	<h2>Pages</h2>
+</header>
+
+<section>
+
+<div class="clearfix" style="margin-bottom: 20px;">
+	<a class="button" href="<?php echo $this->baseUrl(false) ?>/admin/pages/add">Add New</a>
+</div>
+
+<?php // messages
+echo $this -> flashMessenger('success');
+echo $this -> flashMessenger('error');
+?>
+
+	<table style="width:70%">
+		<thead>
+			<tr>
+				<th class="tleft" style="padding-left:50px;">Name</th>
+				<th>Status</th>
+				<th>Date</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if( count($this->data) ) : ?>
+			<!-- looping -->
+			<?php foreach($this->data as $data) : ?>
+				
+				<!-- Looping Parent -->
+				<?php echo $this->partial('partials/page-data.phtml', array('data' => $data['parent'], 'parent' => true)) ?>
+				<!-- /Looping Parent -->
+				
+				<!-- Looping Child -->
+				<?php foreach($data['children'] as $child) : ?>
+					<?php echo $this->partial('partials/page-data.phtml', array('data' => $child, 'parent' => false)) ?>
+				<?php endforeach; ?>
+				<!-- /Looping Child -->
+				
+			<?php endforeach; ?>
+			<!-- /looping -->
+		<?php else : ?>
+			<tr>
+				<td colspan="4">
+					<div class="notification attention">
+						<p>
+						<strong>Page is Empty</strong>
+						Please <a href="<?php echo $this->baseUrl(false) ?>/admin/page/add">add some new page</a>
+						</p>
+					</div>
+				</td>
+			</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	
+</section>

@@ -1,0 +1,183 @@
+<?php 
+echo $this->docType(); ?>
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+	<!--<title>Chromatron Admin Theme</title>-->
+	<meta charset="UTF-8">
+	<!-- <meta name="description" content=""> -->
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	
+	<!-- CSS Styles -->
+	<?php 
+	// load admin style
+	$this->loadStyle( 'admin' );
+				   
+	echo $this->headTitle();
+	echo $this->headMeta();
+	echo $this->headLink();
+	?>
+
+	<!-- Google WebFonts 
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+	-->
+	
+</head>
+
+<!-- Add class .fixed for fixed layout. You would need also edit CSS file for width -->
+<body>
+
+	<!-- Fixed Layout Wrapper -->
+	<div class="fixed-wraper">
+
+	<!-- Aside Block -->
+	<section role="navigation">
+		<!-- User Info -->
+		<section id="user-info">
+			<img src="<?php echo $this->getAvatar('dani.gojay@gmail.com'); ?>" alt="Sample User Avatar">
+			<div>
+				<a href="#" title="Account Settings and Profile Page"><?php echo ucwords($this->identity->firstname.' '.$this->identity->lastname);?></a>
+				<em><?php echo ucfirst( $this->identity->role ); ?></em>
+				<!--<a href="#" title="Account Settings and Profile Page">Admin Snap</a>
+				<em>Administrator</em>-->
+				<ul>
+					<li><a class="button-link" href="<?php echo $this->baseUrl(false); ?>/" title="Vew Thunder" rel="tooltip">view website</a></li>
+					<li><a class="button-link" href="<?php echo $this->baseUrl(false); ?>/logout" title="Logout" rel="tooltip">logout</a></li>
+					<!--<li><a class="button-link" href="#" title="Logout" rel="tooltip">logout</a></li>-->
+				</ul>
+			</div>
+		</section>
+		<!-- /User Info -->
+		
+		<!-- Main Navigation -->
+		<nav id="main-nav">
+			<ul>
+				<li <?php if($this->controller == 'index') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin" title="" class="dashboard no-submenu">Dashboard</a>
+				</li> 
+				<li <?php if($this->controller == 'pages') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/pages" title="" class="products">Pages</a>
+					<ul>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/pages" title="">My Pages</a></li>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/pages/add" title="">Add Page</a></li>
+					</ul>
+				</li>
+				<li <?php if($this->controller == 'news') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/news" title="" class="articles">News</a>
+					<ul>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/news" title="">My News</a></li>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/news/add" title="">Add News</a></li>
+					</ul>
+				</li>
+				<li <?php if($this->controller == 'people') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/people" title="" class="peoples">Peoples</a>
+					<ul>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/people" title="">My Peoples</a></li>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/people/add" title="">Add People</a></li>
+					</ul>
+				</li>
+				<li <?php if($this->controller == 'portfolio') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/portfolio" title="" class="projects">Portfolios</a>
+					<ul>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/portfolio" title="">My Portfolios</a></li>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/portfolio/add" title="">Add Portfolio</a></li>
+					</ul>
+				</li>
+				<li <?php if($this->controller == 'slide') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/slide" title="" class="gallery no-submenu">Slider</a>
+				</li>
+				<li <?php if($this->controller == 'appearance') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/appearance" title="" class="appearance">Appearance</a>
+					<ul>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/appearance/widgets" title="">Widgets</a></li>
+						<li><a href="<?php echo $this->baseUrl(false); ?>/admin/appearance/menus" title="">Menus</a></li>
+					</ul>
+				</li>
+				<li <?php if($this->controller == 'setting') : ?>class="current"<?php endif; ?>>
+					<a href="<?php echo $this->baseUrl(false); ?>/admin/setting" title="" class="settings no-submenu">Settings</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /Main Navigation -->
+	</section>
+	<!-- /Aside Block -->
+	
+	<!-- Main Content -->
+	<section role="main">
+		
+		<!-- Breadcumbs 
+		<ul id="breadcrumbs">
+			<li><a href="/" title="Back to Homepage">Back to Home</a></li>
+			<li><a href="#">Projects</a></li>
+			<li><a href="#">Project's Assets</a></li>
+			<li><a href="#">Edit Assets</a></li>
+			<li>Current Page</li>
+		</ul>-->
+		
+		<div id="ajax-message"></div>
+		
+		<article class="full-block clearfix">
+			<div class="article-container">
+				<?php echo $this->layout()->content; ?>
+			</div>
+		</article>
+	
+	</section>
+	<!-- /Main Content -->
+	
+	</div>
+	<!-- /Fixed Layout Wrapper -->
+
+	<!-- JS Libs at the end for faster loading -->
+	<?php 
+	// load jQuery
+	$this->jQuery()//->setVersion('1.7.1')
+				   ->setLocalPath($this->baseUrl().'/js/jquery/jquery-1.7.1.min.js') // CDN: setVersion('1.5.1')
+				   ->addJavascriptFile( $this->baseUrl() . '/js/admin/libs/modernizr-1.7.min.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/admin/libs/selectivizr.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.nyromodal.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.tipsy.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.wysiwyg.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.datatables.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.datepicker.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.fileinput.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.fullcalendar.min.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.visualize.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/jquery/jquery.visualize.tooltip.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/admin/excanvas.js' )
+				   ->addJavascriptFile( $this->baseUrl() . '/js/admin/script.js' )
+				   ->uiEnable();
+	$this->jQuery()->addOnLoad(
+		'$("#ajax-loader").ajaxStart(function(){
+			$(this).show();
+		}).ajaxStop(function(){
+			$(this).hide();
+		});
+		
+		//Update Message popup
+		jQuery.fn.center = function () {
+			this.animate({"top":( jQuery(window).height() - this.height() - 150 ) / 2+jQuery(window).scrollTop() + "px"},100);
+			this.css( "left", 700 );
+			return this;
+		}
+		
+		jQuery( "#ajax-message" ).center();
+		jQuery( "#ajax-loader" ).center();
+		
+		jQuery(window).scroll(function() {
+			jQuery( "#ajax-message" ).center();
+			jQuery( "#ajax-loader" ).center();
+		});
+		'
+	);
+	echo $this->jQuery();
+	?>
+</body>
+</html>

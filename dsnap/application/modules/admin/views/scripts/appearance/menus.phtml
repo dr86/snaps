@@ -1,0 +1,251 @@
+<?php 
+$this->jQuery()/* CDN */
+			   //->setUiVersion('1.8') //jQuery UI version, automatically 1.8 = 1.8.latest
+			   //->addStylesheet('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css')//add the css
+			   /* LOCAL PATH */
+			   ->setUiLocalPath($this->baseUrl().'/js/jquery/jquery-ui-1.8.18.custom.min.js')// CDN: setUiVersion('1.8.18')
+	           ->addStylesheet($this->baseUrl().'/css/jquery-ui/smoothness/jquery-ui-1.8.21.custom.css')
+	           ->addJavascriptFile($this->baseUrl() . '/js/jquery/jquery.nested.sortable.js') 
+			   ->addJavascriptFile($this->baseUrl() . '/js/admin/menus.js')
+			   ->addOnLoad("
+				   TheMenus.ajaxurl = '".$this->baseUrl(false)."/admin/ajax/menu';
+				   TheMenus.init();
+			   "); ?>
+<header>
+	<h2>Menus</h2>
+</header>
+
+<section>
+
+	<?php 
+	/**
+	 * SELECT MENU
+	 */
+	$current_menu = Zend_Controller_Front::getInstance()->getRequest()->getParam('menu');
+	
+	$select_menus = '
+	<select class="select-menu" name="select-menu">
+		<option value="">-- Select Menu --</option>';
+	foreach( $this->menus as $menu )
+	{
+		$menu_selected = ( $current_menu == 'menu_'.$menu['name'] ) ? 'selected' : '' ;
+		$select_menus .= '<option value="menu_'.$menu['name'].'" '.$menu_selected.' >'.ucwords($menu['name']).'</option>'; 
+		
+	}
+	$select_menus .= '</select>';
+	?>
+	
+	<article id="custom-pages">
+		
+		<!------------------
+		---- NAVIGATION ----
+		-------------------->
+		<div id="navigation" class="portlet">
+			<div class="portlet-header">
+				<h4>Navigation</h4>
+			</div>
+			<div class="portlet-inside" style="display: block;">
+				<div class="notification information">
+					<p>Select which menu you would like to use.</p>
+				</div>
+				<div class="portlet-form">
+					<form action="">
+					<div class="row nav" style="float:left; margin-top: 0;">
+						<div class="alignleft" style="margin-top:5px">
+							<label>Menu</label>
+							<select class="select-menu" name="select-menu">
+								<option value="">-- Select Menu --</option>
+								<?php foreach( $this->menus as $menu ) : ?>
+									<?php $nav_selected = ( $this->current_navigation == 'menu_'.$menu['name'] ) ? 'selected' : ''; ?>
+									<option value="menu_<?php echo $menu['name'] ?>" <?php echo $nav_selected; ?> >
+										<?php echo ucwords($menu['name']) ?>
+									</option> 
+								<?php endforeach; ?>	
+							</select>
+						</div>
+						<div class="alignright">
+							<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+							<input type="submit" class="set-navigation button" value="Save" />
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>	
+		
+		<!-------------------
+		---- CUSTOM LINKS ---
+		-------------------->
+		<div id="pages-link" class="portlet">
+			<div class="portlet-header">
+				<h4>Custom Links</h4>
+			</div>
+			<div class="portlet-inside" style="display: block;">
+				<div class="portlet-form">
+					<form action="">
+					<div class="row">
+						<label>Menu</label>
+						<?php echo $select_menus; ?>
+					</div>	
+					<div class="row">
+						<label>URL</label>
+						<input type="text" name="url" value="http://" />
+					</div>
+					<div class="row">
+						<label>Label</label>
+						<input type="text" name="label" placeholder="label" />
+					</div>
+					<div class="alignright">
+						<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+						<input type="submit" class="add-page-link button" value="Add Item" />
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>	
+		
+		<!-------------
+		---- PAGES ----
+		-------------->
+		<div id="pages-list" class="portlet">
+			<div class="portlet-header">
+				<h4>Pages</h4>
+			</div>
+			<div class="portlet-inside" style="display: block;">
+				<div class="portlet-form">
+					<form id="form-page" action="">
+					<div class="row">
+						<label>Menu</label>
+						<?php echo $select_menus; ?>
+					</div>	
+					<div>
+						<?php foreach( $this->pages as $page ) : ?>
+							<?php $_pages[$page->getId()] = $page; ?>
+							<p><input type="checkbox" name="page[]" value="<?php echo $page->getId() ?>"><?php echo $page->content_name ?></p>
+						<?php endforeach; ?>
+					</div>
+					<div>
+						<div class="alignleft" style="margin-top: 10px">
+							<a class="page-check-all" href="#checkall">Check All</a>&nbsp;|&nbsp;
+							<a class="page-uncheck-all" href="#uncheck">Uncheck All</a>
+						</div>
+						<div class="alignright">
+							<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+							<input type="submit" class="add-page button" value="Add Item" />
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>	
+	</article>
+	
+	<!-------------
+	---- MENUS ----
+	-------------->
+	<article id="custom-menus" style="float: right; width: 60%;">
+		<div id="menu" class="portlet" style="margin-bottom: 10px;">
+			<div class="portlet-header">
+				<h4>Menu</h4>
+			</div>
+			<div class="portlet-inside" style="display: block; float: left">
+				<div class="notification information">
+					<p>To create a custom menu, choose items pages from the left column to add to this menu.</p>
+					<p>After you have added your items, drag and drop to put them in the order you want.</p>
+					<p>When you have finished building your custom menu, make sure you click the Save Menu button.</p>
+				</div>
+				<div class="portlet-form">
+					<form action="" method="post" style="float:left; width:100%">
+					<div class="alignleft" style="width: 70%">
+						<div class="single">
+							<label>Menu Name</label>
+							<input type="text" id="menu-name" name="menu-name" style="width:65%"/>
+						</div>
+					</div>
+					<div class="alignright">
+						<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+						<input type="submit" class="add-menu button" value="Add Menu" />
+					</div>
+				</form>
+				</div>
+				
+				<!------------------
+				---- MENU LIST -----
+				------------------->
+				<div id="menus-list">
+				<?php if( $this->menus ) : ?>
+					<?php foreach( $this->menus as $name => $menu ) : // MENU LIST ?>
+						<div id="<?php echo $name ?>" class="portlet">
+							<div class="portlet-header">
+								<h4><?php echo ucwords($menu['name']) ?></h4>
+								<div class="menu-save-top">
+									<div style="display: block; margin-bottom: 10px">
+										<label>Menu Name</label>
+										<input type="text" id="menu-name" name="menu-name" value="<?php echo $menu['name']; ?>" />
+									</div>
+									<div class="alignleft" style="margin-top: 10px">
+										<a class="menu-remove" href="#remove">Delete Menu</a>&nbsp; &nbsp;
+										<a class="menu-view" href="#view">View Menu</a>
+									</div>
+									<div class="alignright">
+										<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+										<input name="submit" 
+											   class="button" 
+											   type="submit" value="Save Menu" />
+									</div>
+								</div>
+							</div>
+							<div class="portlet-inside">
+								<?php if( !$menu['menus'] ) : ?>
+									<div class="info"><p>Select menu items (pages, links) from the boxes at left to begin building your custom menu</p></div>
+								<?php endif; ?>
+								<form action="#">
+								<ol class="menu-sortable ui-sortable">
+								<?php if( $menu['menus'] ) : ?>
+									<?php foreach( $menu['menus'] as $parent_id => $parent_menu ) : ?>
+										<li id="page_<?php echo $parent_id; ?>">
+											<?php echo $this->partial('partials/menu-list-row.phtml', array(
+												'id' 		=> $parent_id,
+												'parent' 	=> true, 
+												'page' 		=> $_pages[$parent_id],
+												'menu' 		=> $parent_menu) 
+											); ?>
+											<?php if( $parent_menu['pages'] ) : // MENU CHILD/PAGES ?>
+											<ol>
+												<?php foreach( $parent_menu['pages'] as $child_id => $child_menu ) : ?>
+													<li id="page_<?php echo $child_id; ?>">
+														<?php echo $this->partial('partials/menu-list-row.phtml', array(
+															'id' 		=> $child_id,
+															'parent' 	=> false, 
+															'page' 		=> $_pages[$child_id],
+															'menu' 		=> $child_menu) 
+														); ?>
+														</li>
+												<?php endforeach; // END LOOP MENU CHILD ?>
+											</ol>
+											<?php endif; ?>
+										</li>
+									<?php endforeach; // END LOOP MENU PARENT ?>
+								<?php endif; ?>
+								</ol>
+								<div class="menu-save-bottom <?php if( !$menu['menus'] ) echo 'hide'?>">
+									<div class="alignleft">
+										<a class="menu-close" href="#close">Close</a>
+									</div>
+									<div class="alignright">
+										<img class="ajax-loader-widget" src="<?php echo $this->baseUrl() ?>/images/ajax_spin.gif"/>
+										<input name="submit" 
+											   class="button" 
+											   type="submit" value="Save Menu" />
+									</div>
+								</div>
+								</form>
+							</div>
+						</div>
+					<?php endforeach; // END LOOP MENU LIST ?>
+				<?php endif; ?>
+				</div>	
+			</div>
+		</div>	
+	</article>
+</section> 

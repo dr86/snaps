@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+	<stylesheets>
+		<stylesheet>style.css</stylesheet>
+		<stylesheet>colors.css</stylesheet>
+		<stylesheet>add.css</stylesheet>
+		<stylesheet>jquery.tipsy.css</stylesheet>
+		<stylesheet>jquery.wysiwyg.css</stylesheet>
+		<stylesheet>jquery.datatables.css</stylesheet>
+		<stylesheet>jquery.nyromodal.css</stylesheet>
+		<stylesheet>jquery.datepicker.css</stylesheet>
+		<stylesheet>jquery.fileinput.css</stylesheet>
+		<stylesheet>jquery.fullcalendar.css</stylesheet>
+		<stylesheet>jquery.visualize.css</stylesheet>
+	</stylesheets>
+</skin>
